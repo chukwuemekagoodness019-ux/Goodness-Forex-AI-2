@@ -1,0 +1,71 @@
+<!DOCTYPE html><html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Goodness Forex AI</title>
+<style>
+body { margin: 0; font-family: 'Segoe UI', sans-serif; background: #0f172a; color: #f8fafc; }
+.container { padding: 20px; max-width: 500px; margin: auto; }
+h1,h2,h3 { margin: 10px 0; }
+button { padding: 10px 20px; margin: 10px 0; border: none; border-radius: 10px; cursor: pointer; }
+input { padding: 10px; border-radius: 8px; border: none; margin: 5px 0; width: 100%; }
+.card { background: rgba(30,41,59,0.9); padding: 20px; border-radius: 15px; margin: 15px 0; box-shadow: 0 4px 12px rgba(0,0,0,0.3); transition: all 0.3s ease; }
+.card:hover { transform: translateY(-3px); box-shadow: 0 8px 16px rgba(0,0,0,0.5); }
+button.primary { background: #22c55e; color: white; }
+button.secondary { background: #3b82f6; color: white; }
+#chatBox { height: 150px; overflow-y: auto; background: #1e293b; padding: 10px; border-radius: 10px; margin: 10px 0; }
+.message { margin: 5px 0; padding: 5px 10px; border-radius: 10px; }
+.message.user { background: #22c55e; color: #0f172a; text-align: right; }
+.message.ai { background: #3b82f6; color: white; text-align: left; }
+</style>
+</head>
+<body>
+<div class="container">
+<h1>Goodness Forex AI</h1><!-- DASHBOARD SHOWN IMMEDIATELY --><div id="dashboard" class="card">
+<h2>Welcome, <span id="userDisplay">Trader</span></h2>
+<p id="balanceDisplay">Balance: ₦100,000</p>
+<p id="profitDisplay">Profit/Loss: ₦0</p>
+<h3>Trade</h3>
+<input id="tradeAmount" placeholder="Enter trade amount">
+<button class="primary" onclick="trade()">Trade</button>
+<p id="tradeResult"></p>
+<h3>AI Forex Assistant</h3>
+<div id="chatBox"></div>
+<input id="chatInput" placeholder="Ask your AI assistant">
+<button class="secondary" onclick="sendMessage()">Send</button>
+<h3>Premium</h3>
+<button class="secondary" onclick="showPremium()">Upgrade to Premium</button>
+<h3>Profile</h3>
+<p>Creator: Obiagbo Chukwuemeka Goodness</p>
+<button class="secondary" onclick="openAdmin()">Admin Panel</button>
+</div><!-- PREMIUM --><div id="premium" class="card hidden">
+<h2>Premium Subscription</h2>
+<p>Weekly: ₦2,500 | Monthly: ₦9,000</p>
+<p>Payment: OPay, Name: Obiagbo Chukwuemeka Goodness, Account: 9165729223</p>
+<button class="primary" onclick="closePremium()">Back</button>
+</div><!-- ADMIN PANEL --><div id="admin" class="card hidden">
+<h2>Admin Panel (Simulation)</h2>
+<p>Users: Mock User List</p>
+<p>Trades: Mock Trade History</p>
+<p>Stats: Mock Statistics</p>
+<button class="primary" onclick="closeAdmin()">Back</button>
+</div></div>
+<script>
+let balance = 100000;
+let profit = 0;
+let chatHistory = [];function updateDashboard(){ document.getElementById('balanceDisplay').innerText = 'Balance: ₦'+balance; document.getElementById('profitDisplay').innerText = 'Profit/Loss: ₦'+profit; }
+
+function trade(){ let amt = parseInt(document.getElementById('tradeAmount').value); if(!amt || amt<=0) return alert('Enter valid trade amount'); let win = Math.random()>0.5; if(win){ balance += amt; profit += amt; document.getElementById('tradeResult').innerText='You won!';} else{ balance -= amt; profit -= amt; document.getElementById('tradeResult').innerText='You lost!';} updateDashboard(); }
+
+function sendMessage(){ let input = document.getElementById('chatInput').value.trim(); if(!input) return; chatHistory.push({sender:'user', text:input}); document.getElementById('chatInput').value = ''; renderChat(); setTimeout(()=>{ let response = getAIResponse(input); chatHistory.push({sender:'ai', text:response}); renderChat(); },500); }
+
+function renderChat(){ let box = document.getElementById('chatBox'); box.innerHTML = ''; chatHistory.slice(-20).forEach(msg=>{ let div = document.createElement('div'); div.className = 'message '+msg.sender; div.innerText = msg.text; box.appendChild(div); box.scrollTop = box.scrollHeight; }); }
+
+function getAIResponse(msg){ let tips = ['Buy EUR/USD','Sell GBP/USD','Wait, market unclear','Use small lot size','Avoid trading now']; return tips[Math.floor(Math.random()*tips.length)]; }
+
+function showPremium(){ document.getElementById('premium').classList.remove('hidden'); document.getElementById('dashboard').classList.add('hidden'); } function closePremium(){ document.getElementById('premium').classList.add('hidden'); document.getElementById('dashboard').classList.remove('hidden'); }
+
+function openAdmin(){ document.getElementById('admin').classList.remove('hidden'); document.getElementById('dashboard').classList.add('hidden'); } function closeAdmin(){ document.getElementById('admin').classList.add('hidden'); document.getElementById('dashboard').classList.remove('hidden'); } </script>
+
+</body>
+</html>
